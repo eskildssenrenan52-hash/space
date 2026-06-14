@@ -1,0 +1,108 @@
+import type { RobotBehavior, RobotBehaviorId } from './gameStore';
+
+// 100+ atomic behaviors. Each can be combined with parameters and control-flow
+// blocks (if/while/repeat/random) to produce thousands of unique programs.
+export const ROBOT_BEHAVIORS: RobotBehavior[] = [
+  // movement
+  { id: 'move_forward', label: 'Andar para frente', category: 'movement', energyCost: 1 },
+  { id: 'move_back', label: 'Andar para trás', category: 'movement', energyCost: 1 },
+  { id: 'turn_left', label: 'Virar à esquerda', category: 'movement', energyCost: 0.5 },
+  { id: 'turn_right', label: 'Virar à direita', category: 'movement', energyCost: 0.5 },
+  { id: 'strafe_left', label: 'Mover de lado (esq.)', category: 'movement', energyCost: 1 },
+  { id: 'strafe_right', label: 'Mover de lado (dir.)', category: 'movement', energyCost: 1 },
+  { id: 'jump', label: 'Saltar', category: 'movement', energyCost: 2 },
+  { id: 'crouch', label: 'Agachar', category: 'movement', energyCost: 0.5 },
+  { id: 'hover', label: 'Pairar', category: 'movement', energyCost: 3 },
+  { id: 'land', label: 'Pousar', category: 'movement', energyCost: 1 },
+  { id: 'follow_path', label: 'Seguir rota', category: 'movement', energyCost: 1.5 },
+  { id: 'patrol', label: 'Patrulhar área', category: 'movement', energyCost: 1.5 },
+  { id: 'orbit', label: 'Orbitar alvo', category: 'movement', energyCost: 2 },
+  { id: 'roam', label: 'Vagar livremente', category: 'movement', energyCost: 1 },
+  // sensing
+  { id: 'detect_enemy', label: 'Detectar inimigos', category: 'sensing', energyCost: 1 },
+  { id: 'detect_ally', label: 'Detectar aliados', category: 'sensing', energyCost: 0.8 },
+  { id: 'detect_resource', label: 'Detectar recursos', category: 'sensing', energyCost: 1 },
+  { id: 'detect_obstacle', label: 'Detectar obstáculos', category: 'sensing', energyCost: 0.5 },
+  { id: 'scan_area', label: 'Escanear área', category: 'sensing', energyCost: 1.5 },
+  { id: 'thermal_scan', label: 'Escaneamento térmico', category: 'sensing', energyCost: 2 },
+  { id: 'sound_detect', label: 'Detecção sonora', category: 'sensing', energyCost: 0.8 },
+  { id: 'radar_ping', label: 'Pulso de radar', category: 'sensing', energyCost: 1.5 },
+  { id: 'lidar_scan', label: 'Varredura LIDAR', category: 'sensing', energyCost: 2 },
+  { id: 'spectroscopy', label: 'Espectroscopia', category: 'sensing', energyCost: 2.5 },
+  // combat
+  { id: 'attack_target', label: 'Atacar alvo', category: 'combat', energyCost: 3 },
+  { id: 'attack_melee', label: 'Ataque corpo a corpo', category: 'combat', energyCost: 2 },
+  { id: 'fire_ranged', label: 'Disparar à distância', category: 'combat', energyCost: 4 },
+  { id: 'fire_missile', label: 'Lançar míssil', category: 'combat', energyCost: 6 },
+  { id: 'launch_drone', label: 'Lançar mini-drone', category: 'combat', energyCost: 5 },
+  { id: 'shield_up', label: 'Ativar escudo', category: 'combat', energyCost: 3 },
+  { id: 'shield_down', label: 'Desativar escudo', category: 'combat', energyCost: 0.5 },
+  { id: 'evade', label: 'Esquivar', category: 'combat', energyCost: 2 },
+  { id: 'flank', label: 'Flanquear', category: 'combat', energyCost: 2 },
+  { id: 'retreat', label: 'Recuar', category: 'combat', energyCost: 1 },
+  { id: 'self_destruct', label: 'Autodestruição', category: 'combat', energyCost: 0 },
+  // logic
+  { id: 'if_then', label: 'SE (condição)', category: 'logic', energyCost: 0.1 },
+  { id: 'if_else', label: 'SE / SENÃO', category: 'logic', energyCost: 0.1 },
+  { id: 'while_loop', label: 'ENQUANTO', category: 'logic', energyCost: 0.1 },
+  { id: 'for_loop', label: 'PARA cada', category: 'logic', energyCost: 0.1 },
+  { id: 'repeat_n', label: 'REPETIR N vezes', category: 'logic', energyCost: 0.1 },
+  { id: 'wait_seconds', label: 'Esperar segundos', category: 'logic', energyCost: 0.1 },
+  { id: 'random', label: 'Escolha aleatória', category: 'logic', energyCost: 0.1 },
+  { id: 'remember', label: 'Memorizar valor', category: 'logic', energyCost: 0.2 },
+  { id: 'recall', label: 'Recuperar valor', category: 'logic', energyCost: 0.2 },
+  { id: 'forget', label: 'Esquecer valor', category: 'logic', energyCost: 0.1 },
+  { id: 'compare', label: 'Comparar valores', category: 'logic', energyCost: 0.1 },
+  { id: 'count', label: 'Contar', category: 'logic', energyCost: 0.1 },
+  // work
+  { id: 'mine', label: 'Minerar', category: 'work', energyCost: 2.5 },
+  { id: 'drill', label: 'Perfurar', category: 'work', energyCost: 3 },
+  { id: 'haul', label: 'Transportar carga', category: 'work', energyCost: 2 },
+  { id: 'deposit', label: 'Depositar carga', category: 'work', energyCost: 1 },
+  { id: 'refine', label: 'Refinar minério', category: 'work', energyCost: 3 },
+  { id: 'assemble', label: 'Montar componente', category: 'work', energyCost: 2.5 },
+  { id: 'weld', label: 'Soldar', category: 'work', energyCost: 2 },
+  { id: 'repair', label: 'Reparar', category: 'work', energyCost: 2 },
+  { id: 'build', label: 'Construir', category: 'work', energyCost: 3 },
+  { id: 'demolish', label: 'Demolir', category: 'work', energyCost: 2.5 },
+  { id: 'plant', label: 'Plantar', category: 'work', energyCost: 1 },
+  { id: 'harvest', label: 'Colher', category: 'work', energyCost: 1 },
+  { id: 'cook', label: 'Cozinhar', category: 'work', energyCost: 1.5 },
+  { id: 'water', label: 'Irrigar', category: 'work', energyCost: 1 },
+  { id: 'fertilize', label: 'Fertilizar', category: 'work', energyCost: 1 },
+  // comms
+  { id: 'broadcast', label: 'Transmitir', category: 'comms', energyCost: 1 },
+  { id: 'listen', label: 'Escutar canal', category: 'comms', energyCost: 0.5 },
+  { id: 'encrypt', label: 'Criptografar', category: 'comms', energyCost: 1.2 },
+  { id: 'decrypt', label: 'Decriptar', category: 'comms', energyCost: 1.2 },
+  { id: 'jam_signal', label: 'Bloquear sinal', category: 'comms', energyCost: 2 },
+  { id: 'relay', label: 'Retransmitir', category: 'comms', energyCost: 1 },
+  { id: 'request_help', label: 'Pedir ajuda', category: 'comms', energyCost: 0.5 },
+  { id: 'send_coords', label: 'Enviar coordenadas', category: 'comms', energyCost: 0.5 },
+  { id: 'send_data', label: 'Enviar dados', category: 'comms', energyCost: 0.8 },
+  { id: 'connect_swarm', label: 'Conectar a enxame', category: 'comms', energyCost: 1.5 },
+  // power
+  { id: 'recharge', label: 'Recarregar', category: 'power', energyCost: 0 },
+  { id: 'sleep', label: 'Modo soneca', category: 'power', energyCost: 0 },
+  { id: 'wake', label: 'Despertar', category: 'power', energyCost: 0.2 },
+  { id: 'overclock', label: 'Overclock', category: 'power', energyCost: 4 },
+  { id: 'cool_down', label: 'Resfriar', category: 'power', energyCost: 1 },
+  { id: 'vent_heat', label: 'Ventilar calor', category: 'power', energyCost: 0.5 },
+  // social
+  { id: 'greet', label: 'Cumprimentar', category: 'social', energyCost: 0.2 },
+  { id: 'sell', label: 'Vender item', category: 'social', energyCost: 0.5 },
+  { id: 'buy', label: 'Comprar item', category: 'social', energyCost: 0.5 },
+  { id: 'deliver', label: 'Entregar pacote', category: 'social', energyCost: 1 },
+  { id: 'guard', label: 'Vigiar', category: 'social', energyCost: 0.8 },
+  { id: 'escort', label: 'Escoltar', category: 'social', energyCost: 1 },
+  { id: 'entertain', label: 'Entreter', category: 'social', energyCost: 1 },
+  { id: 'teach', label: 'Ensinar', category: 'social', energyCost: 1.2 },
+];
+
+export const BEHAVIOR_BY_ID: Record<RobotBehaviorId, RobotBehavior> = ROBOT_BEHAVIORS.reduce(
+  (acc, b) => {
+    acc[b.id] = b;
+    return acc;
+  },
+  {} as Record<RobotBehaviorId, RobotBehavior>,
+);
